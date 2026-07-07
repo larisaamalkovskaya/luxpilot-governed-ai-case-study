@@ -1,0 +1,91 @@
+{
+  "rulebase_version": "v1.0.0",
+  "description": "Illustrative toy rulebase for the LuxPilot public case study. Not the production rulebase.",
+  "evaluation": "ordered; a rule fires when all conditions match; effects accumulate into route/channel/variant",
+  "rules": [
+    {
+      "id": "R-GOAL-REPEAT",
+      "when": [
+        {
+          "var": "primary_goal",
+          "op": "eq",
+          "value": "increase_repeat_customers"
+        }
+      ],
+      "then": {
+        "route": "loyalty_program"
+      }
+    },
+    {
+      "id": "R-GOAL-NOSHOW",
+      "when": [
+        {
+          "var": "primary_goal",
+          "op": "eq",
+          "value": "reduce_no_shows"
+        }
+      ],
+      "then": {
+        "route": "appointment_reminders"
+      }
+    },
+    {
+      "id": "R-NO-STOREFRONT",
+      "when": [
+        {
+          "var": "has_online_storefront",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "then": {
+        "channel": "in_store_signup"
+      }
+    },
+    {
+      "id": "R-HAS-STOREFRONT",
+      "when": [
+        {
+          "var": "has_online_storefront",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "then": {
+        "channel": "online_storefront"
+      }
+    },
+    {
+      "id": "R-BUDGET-LOW",
+      "when": [
+        {
+          "var": "budget_tier",
+          "op": "eq",
+          "value": "low"
+        }
+      ],
+      "then": {
+        "variant": "lightweight"
+      }
+    },
+    {
+      "id": "R-BUDGET-MEDIUM",
+      "when": [
+        {
+          "var": "budget_tier",
+          "op": "eq",
+          "value": "medium"
+        }
+      ],
+      "then": {
+        "variant": "with_deposit"
+      }
+    }
+  ],
+  "route_composition": {
+    "loyalty_program+lightweight": "loyalty_program_lightweight",
+    "appointment_reminders+with_deposit": "appointment_reminders_with_deposit"
+  },
+  "deterministic": true,
+  "uses_llm": false
+}
