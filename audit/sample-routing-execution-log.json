@@ -1,0 +1,15 @@
+{
+  "entry_id": "log_bakery0001",
+  "timestamp": "2026-01-15T10:00:03Z",
+  "snapshot_id": "snap_bakery001",
+  "rulebase_version": "v1.0.0",
+  "fired_rules": [
+    "R-GOAL-REPEAT",
+    "R-NO-STOREFRONT",
+    "R-BUDGET-LOW"
+  ],
+  "result_id": "res_bakery001",
+  "result_digest": "sha256:3b1f2c8a9d0e4f5061728394a5b6c7d8e9f0a1b2c3d4e5f60718293a4b5c6d7e",
+  "llm_involved_in_routing": false,
+  "replayable": true
+}
