@@ -1,0 +1,19 @@
+{
+  "result_id": "res_salon001",
+  "snapshot_id": "snap_salon001",
+  "rulebase_version": "v1.0.0",
+  "decision": {
+    "route": "appointment_reminders_with_deposit",
+    "parameters": {
+      "channel": "online_storefront",
+      "reason_code": "no_show_goal_has_storefront_medium_budget"
+    },
+    "confidence_basis": "deterministic-rule-match"
+  },
+  "fired_rules": [
+    "R-GOAL-NOSHOW",
+    "R-HAS-STOREFRONT",
+    "R-BUDGET-MEDIUM"
+  ],
+  "deterministic": true
+}
