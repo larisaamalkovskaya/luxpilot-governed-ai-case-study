@@ -1,0 +1,19 @@
+{
+  "result_id": "res_bakery001",
+  "snapshot_id": "snap_bakery001",
+  "rulebase_version": "v1.0.0",
+  "decision": {
+    "route": "loyalty_program_lightweight",
+    "parameters": {
+      "channel": "in_store_signup",
+      "reason_code": "no_online_storefront_low_budget_repeat_goal"
+    },
+    "confidence_basis": "deterministic-rule-match"
+  },
+  "fired_rules": [
+    "R-GOAL-REPEAT",
+    "R-NO-STOREFRONT",
+    "R-BUDGET-LOW"
+  ],
+  "deterministic": true
+}
