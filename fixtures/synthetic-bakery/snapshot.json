@@ -1,0 +1,37 @@
+{
+  "snapshot_id": "snap_bakery001",
+  "created_at": "2026-01-15T10:00:00Z",
+  "rulebase_version": "v1.0.0",
+  "variables": [
+    {
+      "name": "domain",
+      "value": "bakery",
+      "confirmed": true,
+      "source": "user"
+    },
+    {
+      "name": "monthly_orders",
+      "value": 420,
+      "confirmed": true,
+      "source": "user"
+    },
+    {
+      "name": "has_online_storefront",
+      "value": false,
+      "confirmed": true,
+      "source": "user"
+    },
+    {
+      "name": "primary_goal",
+      "value": "increase_repeat_customers",
+      "confirmed": true,
+      "source": "user"
+    },
+    {
+      "name": "budget_tier",
+      "value": "low",
+      "confirmed": true,
+      "source": "deterministic-validation"
+    }
+  ]
+}
