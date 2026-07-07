@@ -1,0 +1,24 @@
+{
+  "result_id": "res_salon001",
+  "snapshot_id": "snap_salon001",
+  "rulebase_version": "v1.0.0",
+  "summary": "Selected appointment reminders with a deposit, delivered via the existing online storefront, because the goal is reducing no-shows, a storefront exists, and budget is medium.",
+  "steps": [
+    {
+      "rule": "R-GOAL-NOSHOW",
+      "matched_on": "primary_goal == reduce_no_shows",
+      "effect": "candidate route = appointment_reminders"
+    },
+    {
+      "rule": "R-HAS-STOREFRONT",
+      "matched_on": "has_online_storefront == true",
+      "effect": "channel = online_storefront"
+    },
+    {
+      "rule": "R-BUDGET-MEDIUM",
+      "matched_on": "budget_tier == medium",
+      "effect": "variant = with_deposit"
+    }
+  ],
+  "llm_involved": false
+}
