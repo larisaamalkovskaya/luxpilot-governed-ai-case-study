@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/luxpilot/audit-log.schema.json",
+  "title": "AuditLogEntry",
+  "description": "A structured record of one routing execution, sufficient to replay the decision and obtain an identical result.",
+  "type": "object",
+  "required": [
+    "entry_id",
+    "timestamp",
+    "snapshot_id",
+    "rulebase_version",
+    "fired_rules",
+    "result_id",
+    "result_digest"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "pattern": "^log_[a-zA-Z0-9]+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the execution occurred. Recorded for audit; not an input to routing."
+    },
+    "snapshot_id": {
+      "type": "string",
+      "description": "Reference to the confirmed snapshot used."
+    },
+    "rulebase_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+(\\.[0-9]+)*$"
+    },
+    "fired_rules": {
+      "type": "array",
+      "description": "Ordered ids of rules that fired, forming the decision trace.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "result_id": {
+      "type": "string",
+      "description": "Reference to the produced routing result."
+    },
+    "result_digest": {
+      "type": "string",
+      "description": "Content digest of the routing result, used to verify a replay reproduced the same output.",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "llm_involved_in_routing": {
+      "type": "boolean",
+      "const": false,
+      "description": "Always false. Documents that no model participated in the decision."
+    },
+    "replayable": {
+      "type": "boolean",
+      "const": true,
+      "description": "Always true; the entry contains everything needed to replay."
+    }
+  }
+}
