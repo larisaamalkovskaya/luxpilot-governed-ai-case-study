@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/luxpilot/routing-result.schema.json",
+  "title": "RoutingResult",
+  "description": "The deterministic output of evaluating a rulebase against a confirmed profile snapshot. Fully determined by (snapshot, rulebase_version).",
+  "type": "object",
+  "required": [
+    "result_id",
+    "snapshot_id",
+    "rulebase_version",
+    "decision",
+    "fired_rules",
+    "deterministic"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "result_id": {
+      "type": "string",
+      "pattern": "^res_[a-zA-Z0-9]+$"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "description": "The snapshot this result was computed from."
+    },
+    "rulebase_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+(\\.[0-9]+)*$"
+    },
+    "decision": {
+      "type": "object",
+      "description": "The chosen advisory outcome.",
+      "required": [
+        "route",
+        "confidence_basis"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "route": {
+          "type": "string",
+          "description": "Identifier of the selected route/recommendation."
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Structured parameters attached to the route.",
+          "additionalProperties": true
+        },
+        "confidence_basis": {
+          "type": "string",
+          "enum": [
+            "deterministic-rule-match"
+          ],
+          "description": "Routing confidence is not probabilistic; it is based on deterministic rule matching."
+        }
+      }
+    },
+    "fired_rules": {
+      "type": "array",
+      "description": "Ordered list of rule ids that fired, enabling a faithful trace.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deterministic": {
+      "type": "boolean",
+      "const": true,
+      "description": "Always true. Asserts no non-deterministic input contributed to this result."
+    }
+  }
+}
