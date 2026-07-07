@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/luxpilot/profile-snapshot.schema.json",
+  "title": "ProfileSnapshot",
+  "description": "An immutable set of confirmed variables used as input to deterministic routing. Only confirmed variables may appear here.",
+  "type": "object",
+  "required": [
+    "snapshot_id",
+    "created_at",
+    "rulebase_version",
+    "variables"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Stable identifier for this snapshot.",
+      "pattern": "^snap_[a-zA-Z0-9]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the snapshot was finalized. Not used by routing; recorded for audit only."
+    },
+    "rulebase_version": {
+      "type": "string",
+      "description": "Version of the rulebase this snapshot is intended to be evaluated against.",
+      "pattern": "^v[0-9]+(\\.[0-9]+)*$"
+    },
+    "variables": {
+      "type": "array",
+      "description": "The confirmed variables. Every entry must be confirmed=true.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/confirmedVariable"
+      }
+    }
+  },
+  "definitions": {
+    "confirmedVariable": {
+      "type": "object",
+      "required": [
+        "name",
+        "value",
+        "confirmed",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Variable name."
+        },
+        "value": {
+          "description": "Confirmed value.",
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "array",
+            "object",
+            "null"
+          ]
+        },
+        "confirmed": {
+          "type": "boolean",
+          "const": true,
+          "description": "Must be true; unconfirmed variables are rejected by routing."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "user",
+            "deterministic-validation"
+          ],
+          "description": "How the value was confirmed. LLM extractions are never a valid confirmation source on their own."
+        }
+      }
+    }
+  }
+}
