@@ -1,0 +1,35 @@
+# Environment / secrets
+.env
+.env.*
+*.local
+
+*secret*
+*credentials*
+*service-role*
+*service_role*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+# Node / build
+node_modules/
+dist/
+build/
+
+# Data / private outputs
+data/
+logs/
+outputs/
+raw/
+private/
