@@ -1,61 +1,106 @@
 # Demo Walkthrough
 
-This walkthrough traces a single advisory interaction end to end, using the
-synthetic bakery fixture. It shows exactly where the LLM is and is not involved.
+This walkthrough traces a single LuxPilot advisory interaction end to end.
+
+It connects the public demo screenshots with the sanitized repository artifacts: synthetic fixtures, toy rulebase, schemas, audit example, and prompt hygiene example.
+
+The walkthrough shows where the LLM is involved, where it is explicitly not involved, and how the system keeps the strategic decision deterministic and replayable.
+
+## Visual reference
+
+Public screenshots for this walkthrough are available in [`docs/screenshots`](screenshots/).
+
+The screenshot set follows the public demo flow:
+
+1. landing page and value proposition;
+2. business context and offering-line interpretation;
+3. focus and challenge selection;
+4. routed strategy recommendation;
+5. capacity-aware action plan.
+
+All screenshots use synthetic/demo data only. They do not disclose production rules, prompts, templates, real user profiles, or execution logs.
 
 ## Scenario
 
-A user is deciding among options in the (invented) bakery domain. We follow the
-fixture in `fixtures/synthetic-bakery/`.
+A synthetic small business user wants a feasible marketing recommendation.
+
+The public fixtures use invented examples such as a bakery and a salon. These fixtures are included to demonstrate the governance pattern without disclosing production logic or private data.
+
+Relevant files:
+
+- [`fixtures/synthetic-bakery/snapshot.json`](../fixtures/synthetic-bakery/snapshot.json)
+- [`fixtures/synthetic-bakery/expected-routing-result.json`](../fixtures/synthetic-bakery/expected-routing-result.json)
+- [`fixtures/synthetic-bakery/trace-summary.json`](../fixtures/synthetic-bakery/trace-summary.json)
+- [`toy-rulebase/toy-rulebase.json`](../toy-rulebase/toy-rulebase.json)
 
 ## Step 1 — Intake
 
-The user provides free-text input. The system may call the LLM to *extract*
-candidate variables (extraction under contract). These candidates are **not**
-yet usable for routing.
+The user provides business context, either by entering free text or by giving a website link.
+
+The LLM may be used here to extract candidate variables from messy input.
+
+Example candidate variables may include:
+
+- buyer type;
+- offering line;
+- product or service type;
+- geography;
+- trust assets;
+- platform dependency;
+- current marketing challenge.
+
+At this stage, extracted values are candidates only.
+
+They are not yet routing inputs.
 
 ## Step 2 — Confirmation
 
-Each extracted candidate is confirmed. Confirmation may be an explicit user
-acknowledgement or a validated deterministic check. After confirmation, the
-system assembles an immutable **profile snapshot** — this is
-`fixtures/synthetic-bakery/snapshot.json`.
+The system shows the interpreted profile back to the user.
 
-## Step 3 — Deterministic routing
+The user can confirm, correct, remove, or add information before the recommendation is made.
 
-The routing engine evaluates the toy rulebase
-(`toy-rulebase/toy-rulebase.json`) against the snapshot. No model is called.
-The output is a **routing result**, which must equal
-`fixtures/synthetic-bakery/expected-routing-result.json`.
+This is the confirmation-before-routing boundary.
 
-The fired rules and the reasoning path are summarized in
-`fixtures/synthetic-bakery/trace-summary.json`.
+Unconfirmed LLM extraction cannot enter the deterministic routing step.
 
-## Step 4 — Audit
+In the public demo screenshots, this is shown through screens such as:
 
-An audit log entry is written describing the snapshot reference, the rulebase
-version, the fired rules, and the result. See
-`audit/sample-routing-execution-log.json` for the shape of such an entry.
+- offering-line confirmation;
+- focus selection;
+- challenge selection;
+- context and trust-asset confirmation.
 
-## Step 5 — Explanation (LLM)
+## Step 3 — Snapshot
 
-Only now does the LLM produce user-facing text. It receives the decided routing
-result plus its trace, and generates an explanation. It cannot change the
-decision and cannot introduce claims that are not supported by the trace. A
-sanitized illustration of such a prompt is in
-`prompts/sample-explanation-prompt-public.md`.
+After confirmation, the system assembles a profile snapshot.
 
-## Where the governance boundary sits
+The snapshot is the accountable input to routing.
 
-- **Model involved:** extraction (Step 1), explanation (Step 5).
-- **Model NOT involved:** confirmation gate (Step 2), routing (Step 3), audit
-  (Step 4).
+In the public fixture, the snapshot shape is illustrated here:
 
-The decision is made entirely in Step 3 by deterministic code. Everything the
-user reads in Step 5 is downstream of a decision that was already fixed and
-logged.
+- [`fixtures/synthetic-bakery/snapshot.json`](../fixtures/synthetic-bakery/snapshot.json)
 
-## Try the comparison
+The production system treats snapshots as immutable routing inputs. If the user changes important information later, the system should create a new snapshot rather than silently mutating the old one.
 
-See `REPRODUCIBILITY.md` for how to compare the produced result and trace
-against the expected fixture files.
+## Step 4 — Deterministic routing
+
+The routing engine evaluates the confirmed snapshot against a versioned rulebase.
+
+No model is called during routing.
+
+In this public repository, the production rulebase is not disclosed. Instead, the repository includes a toy rulebase to illustrate the representation pattern:
+
+- [`toy-rulebase/toy-rulebase.json`](../toy-rulebase/toy-rulebase.json)
+
+The routing result is illustrated here:
+
+- [`fixtures/synthetic-bakery/expected-routing-result.json`](../fixtures/synthetic-bakery/expected-routing-result.json)
+
+The trace summary is illustrated here:
+
+- [`fixtures/synthetic-bakery/trace-summary.json`](../fixtures/synthetic-bakery/trace-summary.json)
+
+The important point is not the toy rule itself. The important point is the governance pattern:
+
+```text
+confirmed snapshot + rulebase version -> deterministic routing result
