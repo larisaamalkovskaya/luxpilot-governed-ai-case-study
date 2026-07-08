@@ -31,7 +31,7 @@ LLM output -&gt; explanation / candidate / draft -&gt; user validation</code></p
   <li>Live demo: <a href="https://luxpilot.app">https://luxpilot.app</a></li>
   <li>Portfolio page: <a href="https://larisaamalkovskaya.github.io/">https://larisaamalkovskaya.github.io/</a></li>
   <li>Demo screenshots: <a href="docs/screenshots/">docs/screenshots</a></li>
-  <li>Demo video: in process</li>
+  <li>Demo video: in progress</li>
 </ul>
 
 <h2>What LuxPilot is</h2>
