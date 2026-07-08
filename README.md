@@ -9,6 +9,15 @@ production codebase, credentials, customer data, or proprietary rulebases.
 Everything here is either documentation, a public specification, a JSON schema,
 a synthetic fixture, or a toy example created specifically for illustration.
 
+> **Public case-study repository.**
+> This is not the production LuxPilot codebase. It contains sanitized architecture, synthetic fixtures, toy examples, and evaluation design only. Production rules, prompts, templates, user data, and real golden traces are intentionally excluded.
+
+## Demo
+
+- Live demo: https://luxpilot.app
+- Demo video: TODO
+- Portfolio page: https://larisaamalkovskaya.github.io/
+
 ## What LuxPilot is
 
 LuxPilot is a decision-support / advisory system that helps users make
@@ -59,6 +68,19 @@ already-decided result).
 
 This is a documentation-first case study. See `ROADMAP.md` for what is planned
 and `REDACTION_POLICY.md` for what is intentionally omitted.
+
+## Public artifact boundaries and safety
+
+This repository is a sanitized public case study, not the production LuxPilot codebase.
+
+For transparency, see:
+
+- [Public Artifact Boundary](PUBLIC_ARTIFACT_BOUNDARY.md)
+- [Redaction Policy](REDACTION_POLICY.md)
+- [Disclaimer](DISCLAIMER.md)
+- [Security Policy](SECURITY.md)
+- [Failure Modes](FAILURE_MODES.md)
+- [Baseline Comparison](BASELINE_COMPARISON.md)
 
 ## License
 
