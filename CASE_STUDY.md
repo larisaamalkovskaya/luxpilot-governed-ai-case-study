@@ -2,53 +2,35 @@
 
 ## Summary
 
-LuxPilot is a governed LLM advisory system. This case study documents the
-design decisions that keep the system deterministic, auditable, and
-model-agnostic, and it shares synthetic artifacts so the behavior can be
-inspected without any private data.
+LuxPilot is a governed LLM advisory system for small business decision support. This case study documents the design decisions that keep the system deterministic, auditable, model-agnostic, and suitable for evaluation.
+
+The repository shares a sanitized public version of the architecture, synthetic fixtures, toy examples, public schemas, and demonstration screenshots. It does not disclose production rules, exact gate predicates, prompts, templates, user data, or real execution logs.
 
 ## The problem
 
-Advisory / decision-support products are tempting to build entirely on top of
-an LLM. But an LLM on the decision path creates three hard problems:
+Advisory and decision-support products are tempting to build entirely on top of an LLM. The model can ask questions, interpret user input, generate advice, and explain itself fluently.
+
+But when the LLM sits on the decision path, three hard problems appear:
 
 1. **Non-determinism.** The same input can produce different recommendations.
-2. **Non-reproducibility.** You cannot reliably replay why a decision was made.
-3. **Opaque accountability.** When a recommendation is wrong, it is unclear
-   whether the cause was the input, the rules, or the model.
+2. **Non-reproducibility.** It becomes difficult to replay why a decision was made.
+3. **Opaque accountability.** When a recommendation is wrong, it is unclear whether the failure came from the input, the rule logic, the prompt, or the model.
 
-For an advisory product, these are not edge cases — they are the core risk.
+For an advisory product, these are not edge cases. They are the core governance risk.
 
-## The approach
+A fluent answer is not enough. The system must also be feasible, inspectable, replayable, and safe to validate.
 
-LuxPilot separates *deciding* from *communicating*.
+## The core design decision
 
-- **Deciding** is done by a deterministic routing engine that consumes a
-  conCASE_STUDY.mdfirmed input snapshot and a versioned rulebase. Same snapshot plus same
-  rulebase version always yields the same routing result.
-- **Communicating** is done by the LLM: it explains results, extracts
-  structured variables under contract, and generates natural language from a
-  decision that has already been made.
+LuxPilot separates **deciding** from **communicating**.
 
-The LLM never chooses the outcome. This is the central governance boundary.
+- **Deciding** is handled by a deterministic routing engine.
+- **Communicating** is handled by the LLM.
 
-## What this bought us
+The LLM may extract candidate variables, explain a decision, generate draft assets, or ask adaptive questions. It does not choose the strategic outcome.
 
-- **Determinism:** identical inputs yield identical routing results.
-- **Replayability:** every decision emits a log sufficient to reproduce it.
-- **Model-agnosticism:** the model can be swapped behind JSON function
-  contracts without changing decisions.
-- **Clear accountability:** input, rules, and model are separated, so failures
-  can be attributed to the right layer.
+This is the central governance boundary of LuxPilot:
 
-## What is in this repo
-
-This public case study includes the architecture, a public specification, JSON
-schemas, synthetic fixtures for two invented domains (a bakery and a salon), a
-toy rulebase, human-readable governance tests, and a sample audit log with a
-replay contract. See `README.md` for the full map.
-
-## What is intentionally not here
-
-No production code, no real customer data, no proprietary rulebase, no
-credentials, no model weights. See `REDACTION_POLICY.md`.
+```text
+confirmed snapshot -> deterministic routing -> structured result
+LLM output -> explanation / candidate / draft -> user validation
