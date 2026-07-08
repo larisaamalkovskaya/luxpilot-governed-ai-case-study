@@ -1,24 +1,54 @@
 # Screenshots
 
-This folder holds screenshots that illustrate the LuxPilot case study (UI flows,
-explanation output, audit views, etc.).
+Public screenshots illustrating the LuxPilot demo flow.
 
-## Guidelines
+All screenshots use synthetic/demo data only. No real user data, private logs, API keys, credentials, internal production details, or private account information are included.
 
-- **Synthetic only.** Screenshots must use synthetic data (e.g. the bakery and
-  salon fixtures). No real user data, names, or identifiers.
-- **No secrets.** Ensure no tokens, URLs with credentials, internal hostnames,
-  or account details are visible.
-- **Redact where needed.** Blur or crop anything that is not intended for public
-  view. See `../../REDACTION_POLICY.md`.
-- **Describe each image.** When adding a screenshot, add a short caption here so
-  readers know what it shows.
+This folder is part of the public LuxPilot case-study repository. The screenshots are intended to show the user-facing flow, not the production rule-base, prompts, templates, or internal implementation details.
 
-## Index
+## Files
 
-_No screenshots have been added yet._
+- `:docs:screenshots:01-landing.png` — public landing page and value proposition.
+- `:docs:screenshots:02-confirmation.png` — offering-line confirmation and user correction before routing.
+- `:docs:screenshots:03-confirmation.png` — focus selection and marketing challenge input.
+- `:docs:screenshots:04-routing-result.png` — routed strategy recommendation and pre-step.
+- `:docs:screenshots:05-plan.png` — capacity-aware action plan with weekly time budget.
+- `:docs:screenshots:06-plan.png` — extended action-plan view with additional tasks.
 
-<!--
-When adding files, list them like:
-- `walkthrough-step3-routing-result.png` — the deterministic routing result view.
--->
+## Demo flow
+
+The screenshots show the public LuxPilot flow:
+
+1. The user enters the product from the landing page.
+2. The system structures business context into offering lines.
+3. The user confirms or corrects the interpreted profile.
+4. The user selects a focus and current marketing challenge.
+5. The system produces a routed strategy recommendation.
+6. The system generates a bounded, capacity-aware action plan.
+
+## Safety notes
+
+These screenshots are for public demonstration only.
+
+They do not disclose:
+
+- production routing rules;
+- exact gate predicates;
+- production prompts;
+- commercial templates;
+- real user profiles;
+- real execution logs;
+- real golden traces;
+- API keys or credentials.
+
+## Redaction guidelines
+
+When adding or replacing screenshots:
+
+- use synthetic/demo data only;
+- crop out browser chrome, bookmarks, extensions, and personal tabs;
+- avoid internal hostnames, account details, or private URLs;
+- blur anything that is not intended for public view;
+- check that no real business, person, email address, or customer data is visible.
+
+See [`../../REDACTION_POLICY.md`](../../REDACTION_POLICY.md) for the repository-wide redaction policy.
